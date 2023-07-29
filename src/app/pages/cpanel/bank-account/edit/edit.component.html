@@ -1,0 +1,166 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="لیست حساب های بانکی"
+  nzSubtitle=""
+></nz-page-header>
+
+
+<nz-skeleton [nzLoading]="isLoading" [nzActive]="true">
+
+<form
+  nz-form
+  [nzLayout]="'horizontal'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <nz-form-item *ngIf="showEditable">
+    <nz-form-label [nzSpan]="4" nzFor="isEditable">قابل ویرایش</nz-form-label>
+    <nz-form-control>
+      <nz-switch
+        [nzControl]="true"
+        id="isEditable"
+        (click)="toggleEditable()"
+        [nzLoading]="toggleEditableLoading"
+        [ngModel]="isEditable"
+        [nzCheckedChildren]="checkedTemplate"
+        [nzUnCheckedChildren]="unCheckedTemplate"
+        [ngModelOptions]="{ standalone: true }"
+      ></nz-switch>
+      <ng-template #checkedTemplate><i nz-icon nzType="check"></i></ng-template>
+      <ng-template #unCheckedTemplate
+        ><i nz-icon nzType="close"></i
+      ></ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="title">عنوان</nz-form-label>
+      <nz-form-control nzErrorTip="لطفا عنوان را وارد کنید">
+        <nz-input-group>
+          <input
+            formControlName="title"
+            id="title"
+            nz-input
+            placeholder="عنوان"
+            [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+          />
+          <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">عنوان اجباری است</div>
+          </div>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="ownerName">نام صاحب حساب</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا نام صاحب حساب را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="ownerName"
+          id="ownerName"
+          nz-input
+          placeholder="نام صاحب حساب"
+          [ngClass]="{ 'is-invalid': submitted && f.ownerName.errors }"
+        />
+        <div *ngIf="submitted && f.ownerName.errors" class="invalid-feedback">
+          <div *ngIf="f.ownerName.errors.required">
+            نام صاحب حساب اجباری است
+          </div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="bankName">نام بانک</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا نام بانک را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="bankName"
+          id="bankName"
+          nz-input
+          placeholder="نام بانک"
+          [ngClass]="{ 'is-invalid': submitted && f.bankName.errors }"
+        />
+        <div *ngIf="submitted && f.bankName.errors" class="invalid-feedback">
+          <div *ngIf="f.bankName.errors.required">نام بانک اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="accountNumber">شماره حساب</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا شماره حساب را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="accountNumber"
+          id="accountNumber"
+          nz-input
+          placeholder="شماره حساب"
+          [ngClass]="{ 'is-invalid': submitted && f.accountNumber.errors }"
+        />
+        <div
+          *ngIf="submitted && f.accountNumber.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.accountNumber.errors.required">
+            شماره حساب اجباری است
+          </div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="cardNumber">شماره کارت</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا شماره کارت را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="cardNumber"
+          id="cardNumber"
+          nz-input
+          placeholder="شماره کارت"
+          [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }"
+        />
+        <div *ngIf="submitted && f.cardNumber.errors" class="invalid-feedback">
+          <div *ngIf="f.cardNumber.errors.required">شماره کارت اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="sheba">شبا</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا شبا را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="sheba"
+          id="sheba"
+          nz-input
+          placeholder="شبا"
+          [ngClass]="{ 'is-invalid': submitted && f.sheba.errors }"
+        />
+        <div *ngIf="submitted && f.sheba.errors" class="invalid-feedback">
+          <div *ngIf="f.sheba.errors.required">شبا اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="4">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitted"
+        [disabled]="!form.valid || isLoading"
+      >
+        ثبت
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+</nz-skeleton>

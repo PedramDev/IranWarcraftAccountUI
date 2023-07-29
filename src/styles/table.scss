@@ -1,0 +1,27 @@
+
+.tbl-deleting {
+    filter: blur(1px);
+    -webkit-filter: blur(1px);
+  
+    &::after{
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      left: 0;
+      top: 0;
+    }
+  }
+  
+  .pk-top-table-row{
+    margin:8px auto;
+    
+  }
+  .pk-bottom-table-row{
+    margin:8px auto;
+  }
+  .pk-table-row{
+    margin:8px auto;
+  
+  }

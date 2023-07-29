@@ -1,0 +1,78 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="لیست نوشته"
+  nzSubtitle=""
+>
+</nz-page-header>
+
+<nz-skeleton [nzLoading]="isLoading" [nzActive]="true">
+<form
+  nz-form
+  [nzLayout]="'horizontal'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="privacy">privacy</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا privacy را وارد کنید">
+      <nz-input-group>
+        <ckeditor
+          [editor]="Editor"
+          id="privacy"
+          name="privacy"
+          [(ngModel)]="privacy"
+          (change)="onCkChange($event,'privacy')"
+          [ngModelOptions]="{ standalone: true }"
+          (ready)="onCkReady($event,'privacy')"
+          [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }"
+        ></ckeditor>
+
+        <div *ngIf="submitted && f.privacy.errors" class="invalid-feedback">
+          <div *ngIf="f.privacy.errors.required">privacy اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="termOfService">termOfService</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا termOfService را وارد کنید">
+      <nz-input-group>
+        <ckeditor
+          [editor]="Editor"
+          id="termOfService"
+          name="termOfService"
+          [(ngModel)]="termOfService"
+          (change)="onCkChange($event,'termOfService')"
+          [ngModelOptions]="{ standalone: true }"
+          (ready)="onCkReady($event,'termOfService')"
+          [ngClass]="{ 'is-invalid': submitted && f.termOfService.errors }"
+        ></ckeditor>
+
+        <div *ngIf="submitted && f.termOfService.errors" class="invalid-feedback">
+          <div *ngIf="f.termOfService.errors.required">termOfService اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="4">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitted"
+        [disabled]="!form.valid || isLoading"
+      >
+        ثبت
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-skeleton>

@@ -1,0 +1,60 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strictNullChecks": false,
+    "allowJs": true,
+    "baseUrl": ".",
+    "strictPropertyInitialization": false,
+    "declaration": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "module": "es2020",
+    "target": "es2015",
+    "lib": [
+        "dom",
+        "es2018",
+        "ES2021.String"
+    ]
+  },
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [
+      "src/main.ts",
+      "src/polyfills.ts",
+      "./src/app/models/shared-models/Enums/SellToUsStatus.ts",
+      "./src/app/models/user/requests/VerifyEmailOtp.ts",
+      "src/app/models/user/enums/UserAttachmentType.ts",
+      "./src/app/models/user/requests/CreateUserAttachment.ts",
+      "./src/app/models/user/requests/UpdateUserInfoBySeller.ts",
+      "./src/app/models/user/requests/UpdateUserPhoneBySeller.ts",
+      "./src/app/models/user/requests/DeleteUserAttachment.ts"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts",
+  ]
+}

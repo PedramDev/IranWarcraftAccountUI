@@ -1,0 +1,134 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="لیست صفحات جانبی"
+  nzSubtitle=""
+>
+</nz-page-header>
+
+<nz-skeleton [nzLoading]="isLoading" [nzActive]="true">
+<form
+  nz-form
+  [nzLayout]="'horizontal'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <!-- <Seo -->
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="title">عنوان</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا عنوان را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="title"
+          id="title"
+          nz-input
+          placeholder="عنوان"
+          [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+        />
+        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+          <div *ngIf="f.title.errors.required">عنوان اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="description">توضیحات</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا توضیحات را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="description"
+          id="description"
+          nz-input
+          placeholder="توضیحات"
+          [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="slug">اسلاگ</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا اسلاگ را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="slug"
+          id="slug"
+          nz-input
+          placeholder="اسلاگ"
+          (keyup)="updateSlug()"
+          (change)="updateSlug()"
+          [ngClass]="{ 'is-invalid': submitted && f.slug.errors }"
+        />
+        <small>{{slugOut}}</small>
+        <div *ngIf="submitted && f.slug.errors" class="invalid-feedback">
+          <div *ngIf="f.slug.errors.required">اسلاگ اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- </Seo -->
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="selectedAdditionalPageStatus"
+      >وضعیت انتشار</nz-form-label
+    >
+    <nz-form-control>
+      <nz-input-group>
+        <nz-select
+          nzShowSearch
+          (ngModelChange)="selectedAdditionalPageStatusChanged($event)"
+          id="selectedAdditionalPageStatus"
+          name="selectedAdditionalPageStatus"
+          [ngModelOptions]="{ standalone: true }"
+          nzAllowClear
+          nzPlaceHolder="انتخاب وضعیت انتشار"
+          [(ngModel)]="selectedAdditionalPageStatus"
+        >
+          <nz-option
+            *ngFor="let pageStatus of additionalPageStatusList"
+            [nzLabel]="pageStatus | pageStatus"
+            [nzValue]="pageStatus"
+          ></nz-option>
+        </nz-select>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="content">محتوا</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا محتوا را وارد کنید">
+      <nz-input-group>
+        <ckeditor
+          [editor]="Editor"
+          id="content"
+          name="content"
+          [(ngModel)]="content"
+          (change)="onCkChange($event)"
+          [ngModelOptions]="{ standalone: true }"
+          (ready)="onCkReady($event)"
+          [ngClass]="{ 'is-invalid': submitted && f.content.errors }"
+        ></ckeditor>
+
+        <div *ngIf="submitted && f.content.errors" class="invalid-feedback">
+          <div *ngIf="f.content.errors.required">محتوا اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="4">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitted"
+        [disabled]="!form.valid || isLoading"
+      >
+        ثبت
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-skeleton>

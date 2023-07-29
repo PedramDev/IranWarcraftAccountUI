@@ -1,0 +1,69 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="لیست ریجن"
+  nzSubtitle=""
+></nz-page-header>
+
+<form
+  nz-form
+  [nzLayout]="'horizontal'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="2" nzFor="faName">نام فارسی</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا نام فارسی ریجن را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="faName"
+          id="faName"
+          name="faName"
+          nz-input
+          placeholder="نام فارسی ریجن"
+          [ngClass]="{ 'is-invalid': submitted && f.faName.errors }"
+        />
+        <div *ngIf="submitted && f.faName.errors" class="invalid-feedback">
+          <div *ngIf="f.faName.errors.required">
+            نام فارسی ریجن اجباری است
+          </div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="2" nzFor="enName">نام انگلیسی</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا نام انگلیسی ریجن را وارد کنید">
+      <nz-input-group>
+        <input
+          formControlName="enName"
+          id="enName"
+          name="enName"
+          nz-input
+          placeholder="نام انگلیسی ریجن"
+          [ngClass]="{ 'is-invalid': submitted && f.enName.errors }"
+        />
+        <div *ngIf="submitted && f.enName.errors" class="invalid-feedback">
+          <div *ngIf="f.enName.errors.required">
+            نام انگلیسی ریجن اجباری است
+          </div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="2">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitted"
+        [disabled]="!form.valid || isLoading"
+      >
+        ثبت
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

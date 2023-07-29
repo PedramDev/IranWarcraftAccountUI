@@ -1,0 +1,110 @@
+<nz-card nzTitle="لیست لایسنس" [nzExtra]="actionTemplate">
+  
+  <div nz-row class="pk-top-table-row">
+
+    <div nz-col nzFlex="auto">
+      <nz-pagination
+      nzShowSizeChanger
+      [(nzPageIndex)]="options.pageNumber"
+      [nzTotal]="total"
+      [nzPageSize]="options.recordPerPage"
+      [nzPageIndex]="options.pageNumber"
+      (nzPageIndexChange)="pageIndexChange($event)"
+      (nzPageSizeChange)="pageSizeChange($event)"
+    ></nz-pagination>
+    </div>
+
+  </div>
+  <div nz-row class="pk-table-row">
+    <div nz-col nzFlex="auto">
+      
+
+      <nz-table
+      #rowSelectionTable
+      [nzShowPagination]="false"
+      [nzFrontPagination]="false"
+      [nzData]="listOfData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+      [nzLoading]="isLoading"
+    >
+      <thead>
+        <tr>
+          <th
+            [nzSelections]="listOfSelection"
+            [(nzChecked)]="checked"
+            [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"
+          ></th>
+          <th># شماره</th>
+          <!-- <th [nzAlign]="'left'">وضعیت</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data" 
+        [ngClass]="{'tbl-deleting': isRowDeleting(data)}"
+        class="d-relative"
+        [attr.disabled]="isRowDeleting(data)">
+          <td
+            [nzChecked]="setOfCheckedId.has(data.id)"
+            (nzCheckedChange)="onItemChecked(data.id, $event)"
+          >
+        </td>
+          <td>
+            <a routerLink="/cpanel/license/{{ data.id }}">
+              {{ data.id }}
+            </a>
+          </td>
+          <!-- <td [nzAlign]="'left'">
+            <nz-switch
+              [nzControl]="true" 
+              (click)="toggleEnabled(data)" 
+              [nzLoading]="toggleEnabledLoading(data)"
+              [ngModel]="data.enabled"
+              [nzCheckedChildren]="checkedTemplate"
+              [nzUnCheckedChildren]="unCheckedTemplate"
+            ></nz-switch>
+            <ng-template #checkedTemplate
+              ><i nz-icon nzType="check"></i
+            ></ng-template>
+            <ng-template #unCheckedTemplate
+              ><i nz-icon nzType="close"></i
+            ></ng-template>
+          </td> -->
+        </tr>
+      </tbody>
+    </nz-table>
+
+    </div>
+  </div>
+
+  <div nz-row class="pk-bottom-table-row">
+    <div nz-col nzFlex="auto">
+      <nz-pagination
+      nzShowSizeChanger
+      [(nzPageIndex)]="options.pageNumber"
+      [nzTotal]="total"
+      [nzPageSize]="options.recordPerPage"
+      [nzPageIndex]="options.pageNumber"
+      (nzPageIndexChange)="pageIndexChange($event)"
+      (nzPageSizeChange)="pageSizeChange($event)"
+    ></nz-pagination>
+    </div>
+  </div>
+ 
+</nz-card>
+<ng-template #actionTemplate>
+  
+  <button nz-button nzType="primary" routerLink="/cpanel/license/add">
+    <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+    جدید
+  </button>
+
+  <button nz-button nzType="primary" nzDanger
+  [disabled]="tableDeleteRowDisabled()"
+   [nzLoading]="deleteInProgress"
+   (click)="delete()">
+    <i nz-icon nzType="delete" nzTheme="outline"></i>
+    حذف
+  </button>
+  
+</ng-template>

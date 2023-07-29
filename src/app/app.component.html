@@ -1,0 +1,105 @@
+<div *ngIf="offline">offline</div>
+<nz-layout *ngIf="isUserLoggedIn" class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a routerLink="/cpanel">
+        <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo"> -->
+        <h1>GodLike</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="مشترک" nzIcon="form">
+        <ul>
+          <li *ngIf="hasPolicy('ModeratorOrSeller')" nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/bank-account">حساب بانکی</a>
+          </li>
+          <li *ngIf="hasPolicy('ModeratorOrCustomer')" nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/ticket">تیکت</a>
+          </li>
+          <li *ngIf="hasPolicy('ModeratorOrStaff')" nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/contact-message">تماس باما</a>
+          </li>
+          <li *ngIf="hasPolicy('ModeratorOrStaff')" nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/additional-page">صفحات جانبی</a>
+          </li>
+          <li *ngIf="hasPolicy('ModeratorOrSeller')" nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/license">لایسنس</a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="hasPolicy('ModeratorOrStaff')" nz-submenu nzOpen nzTitle="فروشگاه" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/region">ریجن</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/product">محصول</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/product-category">دسته محصول</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/product-comment">نظرات</a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="hasPolicy('ModeratorOrStaff')" nz-submenu nzOpen nzTitle="بلاگ" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/article">نوشته</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/article-category">شاخه نوشته</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/tag">برچسب</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/cpanel/article-comment">نظرات</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
+        <span class="user-profile">
+          <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" [(nzVisible)]="profileVisible">
+            {{fullName}}
+            <i nz-icon nzType="user"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>بروزرسانی پروفایل</li>
+              <li nz-menu-item (click)="logout()">خروج</li>
+            </ul>
+          </nz-dropdown-menu>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<nz-layout *ngIf="!isUserLoggedIn" class="app-layout">
+  <nz-content>
+    <div class="inner-content">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+</nz-layout>

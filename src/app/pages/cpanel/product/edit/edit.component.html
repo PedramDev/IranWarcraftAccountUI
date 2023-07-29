@@ -1,0 +1,299 @@
+<nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon nzTitle="لیست محصول" nzSubtitle="">
+</nz-page-header>
+
+<form nz-form [nzLayout]="'horizontal'" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <!-- <Seo -->
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="title">عنوان</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا عنوان را وارد کنید">
+      <nz-input-group>
+        <input formControlName="title" id="title" nz-input placeholder="عنوان"
+          [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+          <div *ngIf="f.title.errors.required">عنوان اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="description">توضیحات</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا توضیحات را وارد کنید">
+      <nz-input-group>
+        <input formControlName="description" id="description" nz-input placeholder="توضیحات"
+          [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
+        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+          <div *ngIf="f.description.errors.required">توضیحات اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="slug">اسلاگ</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا اسلاگ را وارد کنید">
+      <nz-input-group>
+        <input formControlName="slug" id="slug" nz-input placeholder="اسلاگ"
+        (keyup)="updateSlug()"
+        (change)="updateSlug()"
+          [ngClass]="{ 'is-invalid': submitted && f.slug.errors }" />
+        <small>{{slugOut}}</small>
+        <div *ngIf="submitted && f.slug.errors" class="invalid-feedback">
+          <div *ngIf="f.slug.errors.required">اسلاگ اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- </Seo -->
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="name">نام</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا نام را وارد کنید">
+      <nz-input-group>
+        <input formControlName="name" id="name" nz-input placeholder="نام"
+          [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">نام اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="selectedGenres"
+      >تصویر شاخص</nz-form-label
+    >
+    <nz-form-control>
+      <nz-input-group>
+        <div class="clearfix">
+          <nz-upload
+            nzAction="{{ mediaUrl }}"
+            nzListType="picture-card"
+            [(nzFileList)]="fileList"
+            [nzShowButton]="fileList.length < 1"
+            [nzPreview]="handlePreview"
+            [nzRemove]="handleRemove"
+          >
+            <div>
+              <i nz-icon nzType="plus"></i>
+              <div style="margin-top: 8px">آپلود</div>
+            </div>
+          </nz-upload>
+          <nz-modal
+            [nzVisible]="previewVisible"
+            [nzContent]="modalContent"
+            [nzFooter]="null"
+            (nzOnCancel)="previewVisible = false"
+          >
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="content">محتوا</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا محتوا را وارد کنید">
+      <nz-input-group>
+       <ckeditor
+          [editor]="Editor"
+          id="content"
+          name="content"
+          [config]="EditorConfig"
+          [(ngModel)]="content"
+          (change)="onCkChange($event)"
+          [ngModelOptions]="{ standalone: true }"
+          (ready)="onCkReady($event)"
+          [ngClass]="{ 'is-invalid': submitted && f.content.errors }"
+        ></ckeditor>
+
+
+        <div *ngIf="submitted && f.content.errors" class="invalid-feedback">
+          <div *ngIf="f.content.errors.required">محتوا اجباری است</div>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="excerpt">خلاصه</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا خلاصه را وارد کنید">
+      <nz-input-group>
+        <nz-textarea-count [nzMaxCharacterCount]="100">
+          <textarea
+            rows="4"
+            formControlName="excerpt"
+            id="excerpt"
+            name="excerpt"
+            nz-input
+          ></textarea>
+        </nz-textarea-count>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  
+  
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="selectedDefaultVariant">تنوع پیشفرض</nz-form-label>
+    <nz-form-control>
+      <nz-input-group>
+        <nz-select
+          nzShowSearch
+          (ngModelChange)="selectedDefaultVariantChanged($event)"
+          id="selectedDefaultVariant"
+          name="selectedDefaultVariant"
+          [ngModelOptions]="{ standalone: true }"
+          nzAllowClear
+          nzPlaceHolder="تنوع پیشفرض"
+          [(ngModel)]="selectedDefaultVariant"
+        >
+          <nz-option
+            *ngFor="let variant of Variants"
+            [nzLabel]="getIndex(variant)"
+            [nzValue]="variant.id"
+          ></nz-option>
+        </nz-select>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="selectedCategory">انتخاب شاخه</nz-form-label>
+    <nz-form-control>
+      <nz-input-group>
+        <nz-select
+          nzShowSearch
+          (ngModelChange)="selectedCategoryChanged($event)"
+          id="selectedCategory"
+          name="selectedCategory"
+          [ngModelOptions]="{ standalone: true }"
+          nzAllowClear
+          nzPlaceHolder="انتخاب شاخه"
+          [(ngModel)]="selectedCategory"
+        >
+          <nz-option
+            *ngFor="let category of categories"
+            [nzLabel]="category.name"
+            [nzValue]="category.id"
+          ></nz-option>
+        </nz-select>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="selectedPageStatus">وضعیت</nz-form-label>
+    <nz-form-control>
+      <nz-input-group>
+        <nz-select
+          nzShowSearch
+          (ngModelChange)="selectedPageStatusChanged($event)"
+          id="selectedPageStatus"
+          name="selectedPageStatus"
+          [ngModelOptions]="{ standalone: true }"
+          nzAllowClear
+          nzPlaceHolder="انتخاب وضعیت صفحه"
+          [(ngModel)]="selectedPageStatus"
+        >
+          <nz-option
+            *ngFor="let status of pageStatusList"
+            [nzLabel]="status.name"
+            [nzValue]="status.id"
+          ></nz-option>
+        </nz-select>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-divider nzDashed [nzText]="text">
+    <ng-template #text>
+      <button nz-button nzType="dashed" (click)="addVariantRow($event)" >
+        افزودن تنوع
+        <i nz-icon nzType="plus"></i>
+      </button>
+    </ng-template>
+  </nz-divider>
+
+
+  <div *ngFor="let variant of Variants;index as i;" style="
+  border: 1px dashed #40a9ff;
+  margin: 10px;
+  padding: 10px;">
+
+    <span>
+      #{{i}}
+    </span>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="Variants[i].sellPrice">قیمت فروش</nz-form-label>
+      <nz-form-control nzErrorTip="لطفا قیمت را وارد کنید">
+        <nz-input-group>
+          <nz-input-number 
+          id="Variants[i].sellPrice"
+          [(ngModel)]="variant.sellPrice" [nzMin]="0.5" [nzMax]="500" [ngModelOptions]="{standalone: true}" [nzStep]="0.5"
+            [nzFormatter]="formatterDollar" [nzParser]="parserDollar"></nz-input-number>
+
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="Variants[i].buyPrice">قیمت خرید</nz-form-label>
+      <nz-form-control nzErrorTip="لطفا قیمت خرید را وارد کنید">
+        <nz-input-group>
+          <nz-input-number 
+          id="Variants[i].buyPrice"
+          [(ngModel)]="variant.buyPrice" [nzMin]="0.5" [nzMax]="500" [ngModelOptions]="{standalone: true}" [nzStep]="0.5"
+            [nzFormatter]="formatterDollar" [nzParser]="parserDollar"></nz-input-number>
+
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="Variants[i].regionId">انتخاب ریجن</nz-form-label>
+    <nz-form-control>
+      <nz-input-group>
+        <nz-select
+          nzShowSearch
+          id="Variants[i].regionId"
+          name="variant.regionId"
+          [ngModelOptions]="{ standalone: true }"
+          nzAllowClear
+          nzPlaceHolder="انتخاب ریجن"
+          [(ngModel)]="variant.regionId"
+        >
+          <nz-option
+            *ngFor="let region of regions"
+            [nzLabel]="region.fullName"
+            [nzValue]="region.id"
+          ></nz-option>
+        </nz-select>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-control [nzSpan]="14" [nzOffset]="4">
+        <button nz-button [nzDanger]="true" nzType="primary" (click)="deleteVariantRow(i,$event)">Remove</button>
+      </nz-form-control>
+    </nz-form-item>
+
+  </div>
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="4">
+      <button nz-button nzType="primary" [nzLoading]="submitted" [disabled]="!form.valid || isLoading">ثبت</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

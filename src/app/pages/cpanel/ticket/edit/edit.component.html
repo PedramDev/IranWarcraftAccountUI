@@ -1,0 +1,144 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="back()"
+  nzBackIcon
+  nzTitle="لیست تیکت"
+  nzSubtitle=""
+></nz-page-header>
+
+<form
+  nz-form
+  [nzLayout]="'horizontal'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+
+<nz-form-item *ngIf="hasPolicy('ModeratorOrStaff') && isCreate">
+  <nz-form-label [nzSpan]="4" nzFor="selectedUser"
+    >کاربر</nz-form-label
+  >
+  <nz-form-control>
+    <nz-input-group>
+      <nz-select
+        nzShowSearch
+        (ngModelChange)="selectedUserChanged($event)"
+        id="selectedUser"
+        name="selectedUser"
+        [ngModelOptions]="{ standalone: true }"
+        nzAllowClear
+        nzPlaceHolder="انتخاب کاربر"
+        [(ngModel)]="selectedUser"
+      >
+
+      <ng-container *ngFor="let user of userList">
+        <nz-option
+          *ngIf="!isUserLoading"
+          [nzLabel]="buildName(user)"
+          [nzValue]="user.id"
+        ></nz-option>
+      </ng-container>
+      <nz-option *ngIf="isUserLoading" nzDisabled nzCustomContent>
+        <i nz-icon nzType="loading" class="loading-icon"></i>
+        درحال بارگزاری...
+      </nz-option>
+
+      </nz-select>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item *ngIf="isCreate">
+  <nz-form-label [nzSpan]="4" nzFor="subject">عنوان</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا عنوان را وارد کنید">
+    <nz-input-group>
+      <input
+        formControlName="subject"
+        id="subject"
+        nz-input
+        placeholder="عنوان"
+        [ngClass]="{ 'is-invalid': submitted && f.subject.errors }"
+      />
+      <div *ngIf="submitted && f.subject.errors" class="invalid-feedback">
+        <div *ngIf="f.subject.errors.required">عنوان اجباری است</div>
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<ng-container *ngIf="(ticket && ticket.replies && ticket.replies.length > 0)">
+<div class="" *ngFor="let reply of ticket.replies">
+  <div class="header">
+    <div>{{reply.user.name}}</div>
+  </div>
+  <div class="">
+
+  </div>
+  <p>{{reply.message}}</p>
+</div>
+</ng-container>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="4" nzFor="message">پیام</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا پیام را وارد کنید">
+    <nz-input-group>
+      <ckeditor
+        [editor]="Editor"
+        id="message"
+        name="message"
+        [(ngModel)]="message" 
+          [config]="EditorConfig"
+          (change)="onCkChange($event)"
+        [ngModelOptions]="{ standalone: true }"
+        (ready)="onCkReady($event)"
+        [ngClass]="{ 'is-invalid': submitted && f.message.errors }"
+      ></ckeditor>
+
+      <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+        <div *ngIf="f.message.errors.required">پیام اجباری است</div>
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="4" nzFor="selectedFeaturedImage"
+    >بارگزاری فایل</nz-form-label
+  >
+  <nz-form-control>
+    <nz-input-group>
+      <div class="clearfix">
+        <nz-upload
+          [(nzFileList)]="fileList"
+          [nzBeforeUpload]="beforeUpload"
+          nzType="drag"
+          [nzMultiple]="true"
+          (nzChange)="handleChange($event)"
+          [nzRemove]="handleRemove"
+          >
+
+        <p class="ant-upload-drag-icon">
+          <i nz-icon nzType="inbox"></i>
+        </p>
+        <p class="ant-upload-text">فایل ها را بکشید و اینجا رها کنید، یا اینجا کلیک کنید</p>
+        </nz-upload>
+
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="2">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitted"
+        [disabled]="!form.valid || isLoading"
+      >
+        ثبت
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

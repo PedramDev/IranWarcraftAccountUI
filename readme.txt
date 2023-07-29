@@ -1,0 +1,1 @@
+https://github.com/rafaelfgx/Architecture/blob/main/source/Web/Frontend/tsconfig.json

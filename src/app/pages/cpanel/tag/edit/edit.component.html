@@ -1,0 +1,105 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="لیست تگ"
+  nzSubtitle=""
+></nz-page-header>
+
+<form
+  nz-form
+  [nzLayout]="'horizontal'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+ 
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="2" nzFor="title">عنوان</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا عنوان را وارد کنید">
+    <nz-input-group>
+      <input
+        formControlName="title"
+        id="title"
+        nz-input
+        placeholder="عنوان"
+        [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+      />
+      <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+        <div *ngIf="f.title.errors.required">عنوان اجباری است</div>
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="2" nzFor="description">توضیحات</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا توضیحات را وارد کنید">
+    <nz-input-group>
+      <input
+        formControlName="description"
+        id="description"
+        nz-input
+        placeholder="توضیحات"
+        [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+      />
+      <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+        <div *ngIf="f.description.errors.required">توضیحات اجباری است</div>
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="2" nzFor="slug">اسلاگ</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا اسلاگ را وارد کنید">
+    <nz-input-group>
+      <input
+        formControlName="slug"
+        id="slug"
+        nz-input
+        placeholder="اسلاگ"
+        (keyup)="updateSlug()"
+        (change)="updateSlug()"
+        [ngClass]="{ 'is-invalid': submitted && f.slug.errors }"
+      />
+        <small>{{slugOut}}</small>
+        <div *ngIf="submitted && f.slug.errors" class="invalid-feedback">
+        <div *ngIf="f.slug.errors.required">اسلاگ اجباری است</div>
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="2" nzFor="name">نام</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا نام را وارد کنید">
+    <nz-input-group>
+      <input
+        formControlName="name"
+        id="name"
+        nz-input
+        placeholder="نام"
+        [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+      />
+      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+        <div *ngIf="f.name.errors.required">نام اجباری است</div>
+      </div>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="2">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitted"
+        [disabled]="!form.valid || isLoading"
+      >
+        ثبت
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

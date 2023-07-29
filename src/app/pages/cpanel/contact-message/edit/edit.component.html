@@ -1,0 +1,75 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="لیست نوشته"
+  nzSubtitle=""
+>
+</nz-page-header>
+
+<nz-skeleton [nzLoading]="isLoading" [nzActive]="true">
+
+  <div>
+    <label>
+      آرشیو : 
+    </label>
+    <nz-switch
+      [nzControl]="true" 
+      (click)="toggleArchive()" 
+      [nzLoading]="toggleArchiveLoading"
+      [ngModel]="model.archived"
+      [nzCheckedChildren]="checkedTemplate"
+      [nzUnCheckedChildren]="unCheckedTemplate"
+    ></nz-switch>
+  </div>
+
+  <div>
+    <label>
+      خوانده : 
+    </label>
+  <nz-switch
+    [nzControl]="true" 
+    (click)="toggleRead()" 
+    [nzLoading]="toggleReadLoading"
+    [ngModel]="model.read"
+    [nzCheckedChildren]="checkedTemplate"
+    [nzUnCheckedChildren]="unCheckedTemplate"
+  ></nz-switch>
+</div>
+
+
+  <div>
+    نام : 
+    {{model.name}}
+  </div>
+
+  <div>
+    تلفن : 
+    {{model.phone}}
+  </div>
+
+<div>
+  ایمیل : 
+  {{model.email}}
+</div>
+
+<div>
+  تاریخ ارسال پیام : 
+  {{model.createdAtShamsi}}
+</div>
+
+  <div>
+    پیام : 
+    {{model.message}}
+  </div>
+
+
+  <ng-template #checkedTemplate
+    ><i nz-icon nzType="check"></i
+  ></ng-template>
+  <ng-template #unCheckedTemplate
+    ><i nz-icon nzType="close"></i
+  ></ng-template>
+
+
+</nz-skeleton>

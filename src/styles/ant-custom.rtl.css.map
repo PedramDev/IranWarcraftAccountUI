@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,aAAa,CAAC,uBAAuB,CAAC,QAAQ,CAAA;EAC1C,YAAY,EAAE,IAAI;EAClB,WAAW,EAAE,IAAI;CACpB",
+    "sources": [
+        "ant-custom.rtl.scss"
+    ],
+    "names": [],
+    "file": "ant-custom.rtl.css"
+}

@@ -1,0 +1,141 @@
+<nz-card nzTitle="لیست نوشته" [nzExtra]="actionTemplate">
+  
+  <div nz-row class="pk-top-table-row">
+
+    <div nz-col nzFlex="auto">
+      <nz-pagination
+      nzShowSizeChanger
+      [(nzPageIndex)]="options.pageNumber"
+      [nzTotal]="total"
+      [nzPageSize]="options.recordPerPage"
+      [nzPageIndex]="options.pageNumber"
+      (nzPageIndexChange)="pageIndexChange($event)"
+      (nzPageSizeChange)="pageSizeChange($event)"
+    ></nz-pagination>
+    </div>
+
+  </div>
+  <div nz-row class="pk-table-row">
+    <div nz-col nzFlex="auto">
+      
+
+      <nz-table
+      #rowSelectionTable
+      [nzShowPagination]="false"
+      [nzFrontPagination]="false"
+      [nzData]="listOfData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+      [nzLoading]="isLoading"
+    >
+      <thead>
+        <tr>
+          <th
+            [nzSelections]="listOfSelection"
+            [(nzChecked)]="checked"
+            [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"
+          ></th>
+          <th>نام</th>
+          <th>تلفن</th>
+          <th>ایمیل</th>
+          <th>تاریخ ارسال</th>
+          <th [nzAlign]="'left'">آرشیو</th>
+          <th [nzAlign]="'left'">خوانده</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data" 
+        [ngClass]="{'tbl-deleting': isRowDeleting(data)}"
+        class="d-relative"
+        [attr.disabled]="isRowDeleting(data)">
+          <td
+            [nzChecked]="setOfCheckedId.has(data.id)"
+            (nzCheckedChange)="onItemChecked(data.id, $event)"
+          >
+        </td>
+          <td>
+            <a routerLink="/cpanel/contact-message/{{ data.id }}">
+              {{ data.name }}
+            </a>
+          </td>
+          <td>
+            <a routerLink="/cpanel/contact-message/{{ data.id }}">
+              {{ data.phone }}
+            </a>
+          </td>
+          <td>
+            <a routerLink="/cpanel/contact-message/{{ data.id }}">
+              {{ data.email }}
+            </a>
+          </td>
+          <td>
+            <a routerLink="/cpanel/contact-message/{{ data.id }}">
+              {{ data.createdAtShamsi }}
+            </a>
+          </td>
+          <td [nzAlign]="'left'">
+
+            <nz-switch
+              [nzControl]="true" 
+              (click)="toggleArchive(data)" 
+              [nzLoading]="toggleArchiveLoading(data)"
+              [ngModel]="data.archived"
+              [nzCheckedChildren]="checkedTemplate"
+              [nzUnCheckedChildren]="unCheckedTemplate"
+            ></nz-switch>
+
+
+          </td>
+          <td [nzAlign]="'left'">
+            
+            <nz-switch
+              [nzControl]="true" 
+              (click)="toggleRead(data)" 
+              [nzLoading]="toggleReadLoading(data)"
+              [ngModel]="data.read"
+              [nzCheckedChildren]="checkedTemplate"
+              [nzUnCheckedChildren]="unCheckedTemplate"
+            ></nz-switch>
+
+
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    </div>
+  </div>
+
+  <ng-template #checkedTemplate
+    ><i nz-icon nzType="check"></i
+  ></ng-template>
+  <ng-template #unCheckedTemplate
+    ><i nz-icon nzType="close"></i
+  ></ng-template>
+
+  <div nz-row class="pk-bottom-table-row">
+    <div nz-col nzFlex="auto">
+      <nz-pagination
+      nzShowSizeChanger
+      [(nzPageIndex)]="options.pageNumber"
+      [nzTotal]="total"
+      [nzPageSize]="options.recordPerPage"
+      [nzPageIndex]="options.pageNumber"
+      (nzPageIndexChange)="pageIndexChange($event)"
+      (nzPageSizeChange)="pageSizeChange($event)"
+    ></nz-pagination>
+    </div>
+  </div>
+ 
+</nz-card>
+<ng-template #actionTemplate>
+
+  <button nz-button nzType="primary" nzDanger
+  [disabled]="tableDeleteRowDisabled()"
+   [nzLoading]="deleteInProgress"
+   (click)="delete()">
+    <i nz-icon nzType="delete" nzTheme="outline"></i>
+    حذف
+  </button>
+  
+</ng-template>

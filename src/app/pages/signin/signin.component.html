@@ -1,0 +1,152 @@
+<div class="wrapper">
+  <div
+    class="wrapper-item"
+    *ngIf="WichForm == 'PreCheck'"
+    nz-form
+    [nzLayout]="'horizontal'"
+  >
+    <h4 class="text-center">ثبت نام/ورود فروشنده</h4>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="mobile">موبایل</nz-form-label>
+      <nz-form-control nzErrorTip="لطفا موبایل را وارد کنید">
+        <nz-input-group>
+          <input
+            class="tel-input"
+            type="tel"
+            id="mobile"
+            nz-input
+            placeholder="موبایل"
+            [(ngModel)]="preLoginCheck.mobile"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-control [nzSpan]="14" [nzOffset]="2">
+        <button
+          nz-button
+          nzType="primary"
+          [nzLoading]="checkUserExistSubmitted"
+          (click)="checkUserExist()"
+        >
+          بررسی شماره
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div
+  class="wrapper-item"
+  *ngIf="WichForm == 'Login'"
+  nz-form
+  [nzLayout]="'horizontal'"
+>
+  <h4 class="text-center">ورود فروشنده</h4>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="code">رمز موقت</nz-form-label>
+    <nz-form-control nzErrorTip="لطفا رمز موقت را وارد کنید">
+      <nz-input-group>
+        <input
+          class="tel-input"
+          type="tel"
+          id="mobile"
+          nz-input
+          placeholder="رمز موقت"
+          [(ngModel)]="loginByMobileOtp.code"
+        />
+			<small class="mt-1">{{timeLeft}} ثانیه باقی مانده</small>
+    </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-control [nzSpan]="14" [nzOffset]="2">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="signInSubmitted"
+        (click)="signIn()"
+      >
+      ورود
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+
+<div
+class="wrapper-item"
+*ngIf="WichForm == 'Register'"
+nz-form
+[nzLayout]="'horizontal'"
+>
+<h4 class="text-center">ثبت نام فروشنده</h4>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="4" nzFor="firstName">نام</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا نام را وارد کنید">
+    <nz-input-group>
+      <input
+        class="tel-input"
+        type="tel"
+        id="firstName"
+        nz-input
+        placeholder="نام"
+        [(ngModel)]="registerUserByMobile.firstName"
+      />
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="4" nzFor="lastName">نام خانوادگی</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا نام خانوادگی را وارد کنید">
+    <nz-input-group>
+      <input
+        class="tel-input"
+        type="tel"
+        id="lastName"
+        nz-input
+        placeholder="نام خانوادگی"
+        [(ngModel)]="registerUserByMobile.lastName"
+      />
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="4" nzFor="code">رمز موقت</nz-form-label>
+  <nz-form-control nzErrorTip="لطفا رمز موقت را وارد کنید">
+    <nz-input-group>
+      <input
+        class="tel-input"
+        type="tel"
+        id="mobile"
+        nz-input
+        placeholder="رمز موقت"
+        [(ngModel)]="registerUserByMobile.code"
+      />
+			<small class="mt-1">{{timeLeft}} ثانیه باقی مانده</small>
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item nz-row>
+  <nz-form-control [nzSpan]="14" [nzOffset]="2">
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="registerSubmitted"
+      (click)="register()"
+    >
+    ثبت نام
+  </button>
+  </nz-form-control>
+</nz-form-item>
+</div>
+
+
+
+</div>
